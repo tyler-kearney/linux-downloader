@@ -12,7 +12,7 @@ public class Downloader extends JFrame implements ActionListener {
     // todo create an array of the associated download URLs for each of the listed distributions.
     private String[] isoURLs = {
 
-    }
+    };
 
     public Downloader() {
         btnDownload.addMouseListener(new MouseAdapter() {
