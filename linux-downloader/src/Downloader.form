@@ -23,10 +23,9 @@
             <item value="Fedora Gnome"/>
             <item value="Fedora KDE"/>
             <item value="Fedora XFCE"/>
-            <item value="Opensuse Gnome"/>
-            <item value="Opensuse KDE"/>
-            <item value="Opensuse XFCE"/>
+            <item value="Opensuse"/>
             <item value="Linux Mint"/>
+            <item value="Linux Mint Mate"/>
             <item value="Linux Mint XFCE"/>
             <item value="Arch Linux"/>
           </model>
