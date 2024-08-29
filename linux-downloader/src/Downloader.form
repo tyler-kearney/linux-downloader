@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Downloader">
+  <grid id="27dc6" binding="mainPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="91f48" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Linux Distro: "/>
+        </properties>
+      </component>
+      <component id="75f53" class="javax.swing.JComboBox" binding="cbxDistro">
+        <constraints/>
+        <properties>
+          <model>
+            <item value="Ubuntu"/>
+            <item value="Xubuntu"/>
+            <item value="Kubuntu"/>
+            <item value="Fedora Gnome"/>
+            <item value="Fedora KDE"/>
+            <item value="Fedora XFCE"/>
+            <item value="Opensuse Gnome"/>
+            <item value="Opensuse KDE"/>
+            <item value="Opensuse XFCE"/>
+            <item value="Linux Mint"/>
+            <item value="Linux Mint XFCE"/>
+            <item value="Arch Linux"/>
+          </model>
+        </properties>
+      </component>
+      <component id="c6ef1" class="javax.swing.JButton" binding="btnDownload">
+        <constraints/>
+        <properties>
+          <text value="Download"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
