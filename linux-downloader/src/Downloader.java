@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
@@ -8,6 +7,7 @@ public class Downloader extends JFrame implements ActionListener {
     private JPanel mainPanel;
     private JComboBox cbxDistro;
     private JButton btnDownload;
+    private JProgressBar dlProgress;
 
     // An array containing the download links for the isos, it matches the same order as the array stored in cbxDistro.
     private String[] isoURLs = {
@@ -24,11 +24,86 @@ public class Downloader extends JFrame implements ActionListener {
             "https://mirror.clarkson.edu/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso"
     };
 
+    private void download(String url, JProgressBar progressBar) {
+        try {
+            URL isoURL = new URL(url);
+            URLConnection conn = isoURL.openConnection();
+            conn.connect();
+
+            int contentLength = conn.getContentLength();
+            progressBar.setMaximum(contentLength);
+
+            InputStream input = conn.getInputStream();
+            FileOutputStream output = new FileOutputStream(new File(".../linux_iso"));
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            long totalBytesRead = 0;
+
+            while ((bytesRead = input.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+                totalBytesRead += bytesRead;
+
+                progressBar.setValue((int) totalBytesRead);
+            }
+
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Download Failed: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private boolean isoDownload(String distroName, JProgressBar progressBar) {
+        switch (distroName) {
+            case "Ubuntu":
+                download(isoURLs[0], progressBar);
+                return true;
+            case "Xubuntu":
+                download(isoURLs[1], progressBar);
+                return true;
+            case "Kubuntu":
+                download(isoURLs[2], progressBar);
+                return true;
+            case "Fedora Gnome":
+                download(isoURLs[3], progressBar);
+                return true;
+            case "Fedora KDE":
+                download(isoURLs[4], progressBar);
+                return true;
+            case "Fedora XFCE":
+                download(isoURLs[5], progressBar);
+                return true;
+            case "Opensuse":
+                download(isoURLs[6], progressBar);
+                return true;
+            case "Linux Mint":
+                download(isoURLs[7], progressBar);
+                return true;
+            case "Linux Mint Mate":
+                download(isoURLs[8], progressBar);
+                return true;
+            case "Linux Mint XFCE":
+                download(isoURLs[9], progressBar);
+                return true;
+            case "Arch Linux":
+                download(isoURLs[10], progressBar);
+                return true;
+            default:
+                JOptionPane.showMessageDialog(this, "Invalid distro name: " + distroName, "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+        }
+    }
+
     public Downloader() {
         btnDownload.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                String isoURL = cbxDistro.getSelectedItem().toString();
+                boolean down = isoDownload(isoURL, dlProgress);
+                if (!down) {
+                    JOptionPane.showMessageDialog(null, "Download Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
