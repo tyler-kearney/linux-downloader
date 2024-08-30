@@ -34,8 +34,15 @@ public class Downloader extends JFrame implements ActionListener {
             int contentLength = conn.getContentLength();
             progressBar.setMaximum(contentLength);
 
+            String desktopPath = System.getProperty("user.home") + File.separator + "Desktop";
+            File desktopDir = new File(desktopPath);
+            if (!desktopDir.exists()) {
+                desktopDir.mkdir();
+            }
+
             InputStream input = conn.getInputStream();
-            FileOutputStream output = new FileOutputStream(new File(".../linux_iso"));
+            File outputFile = new File(desktopDir, "linux_iso.iso");
+            FileOutputStream output = new FileOutputStream(outputFile);
 
             byte[] buffer = new byte[1024];
             int bytesRead;
