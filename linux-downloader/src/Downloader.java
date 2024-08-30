@@ -96,6 +96,7 @@ public class Downloader extends JFrame implements ActionListener {
     }
 
     public Downloader() {
+        getContentPane().add(mainPanel);
         btnDownload.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
