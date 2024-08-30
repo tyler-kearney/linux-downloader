@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 
 public class Downloader extends JFrame implements ActionListener {
     private JPanel mainPanel;
@@ -10,7 +11,7 @@ public class Downloader extends JFrame implements ActionListener {
     private JProgressBar dlProgress;
 
     // An array containing the download links for the isos, it matches the same order as the array stored in cbxDistro.
-    private String[] isoURLs = {
+    private final String[] isoURLs = {
             "https://ubuntu.com/download/desktop/thank-you?version=24.04&architecture=amd64&lts=true",
             "https://mirror.us.leaseweb.net/ubuntu-cdimage/xubuntu/releases/24.04/release/xubuntu-24.04-desktop-amd64.iso",
             "https://cdimage.ubuntu.com/kubuntu/releases/24.04/release/kubuntu-24.04-desktop-amd64.iso",
@@ -55,44 +56,56 @@ public class Downloader extends JFrame implements ActionListener {
     }
 
     private boolean isoDownload(String distroName, JProgressBar progressBar) {
-        switch (distroName) {
-            case "Ubuntu":
+        return switch (distroName) {
+            case "Ubuntu" -> {
                 download(isoURLs[0], progressBar);
-                return true;
-            case "Xubuntu":
+                yield true;
+            }
+            case "Xubuntu" -> {
                 download(isoURLs[1], progressBar);
-                return true;
-            case "Kubuntu":
+                yield true;
+            }
+            case "Kubuntu" -> {
                 download(isoURLs[2], progressBar);
-                return true;
-            case "Fedora Gnome":
+                yield true;
+            }
+            case "Fedora Gnome" -> {
                 download(isoURLs[3], progressBar);
-                return true;
-            case "Fedora KDE":
+                yield true;
+            }
+            case "Fedora KDE" -> {
                 download(isoURLs[4], progressBar);
-                return true;
-            case "Fedora XFCE":
+                yield true;
+            }
+            case "Fedora XFCE" -> {
                 download(isoURLs[5], progressBar);
-                return true;
-            case "Opensuse":
+                yield true;
+            }
+            case "Opensuse" -> {
                 download(isoURLs[6], progressBar);
-                return true;
-            case "Linux Mint":
+                yield true;
+            }
+            case "Linux Mint" -> {
                 download(isoURLs[7], progressBar);
-                return true;
-            case "Linux Mint Mate":
+                yield true;
+            }
+            case "Linux Mint Mate" -> {
                 download(isoURLs[8], progressBar);
-                return true;
-            case "Linux Mint XFCE":
+                yield true;
+            }
+            case "Linux Mint XFCE" -> {
                 download(isoURLs[9], progressBar);
-                return true;
-            case "Arch Linux":
+                yield true;
+            }
+            case "Arch Linux" -> {
                 download(isoURLs[10], progressBar);
-                return true;
-            default:
+                yield true;
+            }
+            default -> {
                 JOptionPane.showMessageDialog(this, "Invalid distro name: " + distroName, "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
-        }
+                yield false;
+            }
+        };
     }
 
     public Downloader() {
@@ -100,7 +113,7 @@ public class Downloader extends JFrame implements ActionListener {
         btnDownload.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String isoURL = cbxDistro.getSelectedItem().toString();
+                String isoURL = Objects.requireNonNull(cbxDistro.getSelectedItem()).toString();
                 boolean down = isoDownload(isoURL, dlProgress);
                 if (!down) {
                     JOptionPane.showMessageDialog(null, "Download Failed", "Error", JOptionPane.ERROR_MESSAGE);
