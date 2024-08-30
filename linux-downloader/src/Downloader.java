@@ -26,40 +26,48 @@ public class Downloader extends JFrame implements ActionListener {
     };
 
     private void download(String url, JProgressBar progressBar) {
-        try {
-            URL isoURL = new URL(url);
-            URLConnection conn = isoURL.openConnection();
-            conn.connect();
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                try {
+                    URL isoURL = new URL(url);
+                    URLConnection conn = isoURL.openConnection();
+                    conn.connect();
 
-            int contentLength = conn.getContentLength();
-            progressBar.setMaximum(contentLength);
+                    int contentLength = conn.getContentLength();
+                    progressBar.setMaximum(contentLength);
 
-            String desktopPath = System.getProperty("user.home") + File.separator + "Desktop";
-            File desktopDir = new File(desktopPath);
-            if (!desktopDir.exists()) {
-                desktopDir.mkdir();
+                    String desktopPath = System.getProperty("user.home") + File.separator + "Desktop";
+                    File desktopDir = new File(desktopPath);
+                    if (!desktopDir.exists()) {
+                        desktopDir.mkdir();
+                    }
+
+                    InputStream input = conn.getInputStream();
+                    File outputFile = new File(desktopDir, "linux_iso.iso");
+                    FileOutputStream output = new FileOutputStream(outputFile);
+
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    long totalBytesRead = 0;
+
+                    while ((bytesRead = input.read(buffer)) != -1) {
+                        output.write(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
+
+                        progressBar.setValue((int) totalBytesRead);
+                    }
+
+                    input.close();
+                    output.close();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Download Failed: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                return null;
             }
+        };
 
-            InputStream input = conn.getInputStream();
-            File outputFile = new File(desktopDir, "linux_iso.iso");
-            FileOutputStream output = new FileOutputStream(outputFile);
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            long totalBytesRead = 0;
-
-            while ((bytesRead = input.read(buffer)) != -1) {
-                output.write(buffer, 0, bytesRead);
-                totalBytesRead += bytesRead;
-
-                progressBar.setValue((int) totalBytesRead);
-            }
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Download Failed: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        worker.execute();
     }
 
     private boolean isoDownload(String distroName, JProgressBar progressBar) {
