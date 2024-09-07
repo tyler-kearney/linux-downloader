@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="linux-downloader:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/linux_downloader_jar</output-path>
+    <root id="archive" name="linux-downloader.jar">
+      <element id="module-output" name="linux-downloader" />
+    </root>
+  </artifact>
+</component>
